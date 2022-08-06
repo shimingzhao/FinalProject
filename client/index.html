@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Blooming</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+        crossorigin="anonymous" />
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+    <div class="grid_container">
+        <div class="paragraph">
+            <h5><i>Blooming</i></h5>
+            <h5>Make Everyday Special</h5>
+            <h5>All the best flowers for you and your loved ones</h5>
+        </div>
+        <div id="app"></div>
+        <div id="myModal" class="modal"></div>
+        <div id="add-flower-container">
+            <label for="name-input">Name:</label>
+            <input type="text" id="name-input" name="name">
+            <label for="description-input">Description:</label>
+            <input type="text" id="description-input" name="description">
+            <label for="link-input">Link:</label>
+            <input type="text" id="link-input" name="link">
+            <label for="price-input">Price:</label>
+            <input type="text" id="price-input" name="price">
+            <label for="category-select">Category:</label>
+            <select name="category" id="category-select">
+            </select>
+            <br><br>
+            <button type="button" id="add-flower-btn"
+                class="btn btn-success">Add new
+                flower</button>
+        </div>
+        <button type="button" id="back-to-home-page-btn">Back</button>
+        <script type="module" src="index.js"></script>
+    </div>
+
+</body>
+
+</html>
