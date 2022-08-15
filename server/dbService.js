@@ -56,6 +56,23 @@ class DbService {
         }
     }
 
+    async getUsers() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = "SELECT user_name FROM users;";
+
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            // console.log(response);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async getFlower(flowerId) {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -92,6 +109,30 @@ class DbService {
                 link,
                 category,
                 price,
+            };
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async insertNewUser(user) {
+        try {
+            const { user_name, password, first_name, last_name } = user;
+            const insertId = await new Promise((resolve, reject) => {
+                const query = "INSERT INTO users (user_name, password, first_name, last_name) VALUES (?,?,?,?);";
+
+                connection.query(query, [user_name, password, first_name, last_name], (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result.insertId);
+                })
+            });
+
+            return {
+                id: insertId,
+                user_name,
+                password,
+                first_name,
+                last_name,
             };
         } catch (error) {
             console.log(error);
@@ -136,10 +177,10 @@ class DbService {
         }
     }
 
-    async searchByFlowerName(name) {
+    async searchByUserName(name) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM flowers WHERE name = ?;";
+                const query = "SELECT * FROM users WHERE user_name = ?;";
 
                 connection.query(query, [name], (err, results) => {
                     if (err) reject(new Error(err.message));

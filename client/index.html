@@ -14,9 +14,60 @@
 <body>
     <div class="grid_container">
         <div class="paragraph">
-            <h5><i>Blooming</i></h5>
-            <h5>Make Everyday Special</h5>
-            <h5>All the best flowers for you and your loved ones</h5>
+            <div>
+                <h5><i>Blooming</i></h5>
+                <h5>Make Everyday Special</h5>
+                <h5>All the best flowers for you and your loved ones</h5>
+            </div>
+            <div id="user-info-container" hidden>
+                <div id="user-info"></div>
+                <button type="button" id="signout-btn"
+                    class="btn btn-success"></button>
+            </div>
+            <div id="user-login-container">
+                <div id="buttons-container">
+                    <button type="button" id="login-btn"
+                        class="btn btn-success">Login</button>
+                    <button type="button" id="signup-btn"
+                        class="btn btn-success">Sign
+                        up</button>
+                </div>
+                <div id="login-container" hidden>
+                    <label for="login-username-input">User name:</label>
+                    <input type="text" id="login-username-input"
+                        name="username">
+                    <label for="login-password-input">Password:</label>
+                    <input type="text" id="login-password-input"
+                        name="password">
+                    <button type="button" id="login-input-btn"
+                        class="btn btn-success">Login</button>
+                    <button type="button"
+                        class="btn btn-success cancel-btn">Cancel</button>
+                </div>
+                <div id="signup-container" hidden>
+                    <label for="signup-username-input">User name:</label>
+                    <input type="text" id="signup-username-input"
+                        name="username">
+                    <label for="signup-password-input">Password:</label>
+                    <input type="text" id="signup-password-input"
+                        name="password">
+                    <label for="signup-confirm-password-input">Confirm
+                        password:</label>
+                    <input type="text" id="signup-confirm-password-input"
+                        name="confirm_password">
+                    <label for="signup-firstname-input">First name:</label>
+                    <input type="text" id="signup-firstname-input"
+                        name="first_name">
+                    <label for="signup-lastname-input">Last name:</label>
+                    <input type="text" id="signup-lastname-input"
+                        name="last_name">
+                    <button type="button" id="signup-input-btn"
+                        class="btn btn-success">Sign up</button>
+                    <button type="button"
+                        class="btn btn-success cancel-btn">Cancel</button>
+                </div>
+                <div id="info-container"></div>
+            </div>
         </div>
         <div id="app"></div>
         <div id="myModal" class="modal"></div>
@@ -37,7 +88,8 @@
                 class="btn btn-success">Add new
                 flower</button>
         </div>
-        <button type="button" id="back-to-home-page-btn">Back</button>
+        <button type="button" id="back-to-home-page-btn"
+            class="btn btn-success">Back</button>
         <script type="module" src="index.js"></script>
     </div>
 

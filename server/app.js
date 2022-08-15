@@ -12,12 +12,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-// create
+// create flower
 app.post('/insert', (request, response) => {
     const newFlower = request.body;
     const db = dbService.getDbServiceInstance();
 
     const result = db.insertNewFlower(newFlower);
+
+    result
+        .then(data => response.json({ data: data }))
+        .catch(err => console.log(err));
+});
+
+// create user
+app.post('/insert_user', (request, response) => {
+    const newUser = request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.insertNewUser(newUser);
 
     result
         .then(data => response.json({ data: data }))
@@ -58,6 +70,16 @@ app.get('/getCategories', (request, response) => {
         .catch(err => console.log(err));
 })
 
+// read users
+app.get('/users', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getUsers();
+
+    result
+        .then(data => response.json({ data: data }))
+        .catch(err => console.log(err));
+})
+
 // update
 app.patch('/update', (request, response) => {
     const { id, name } = request.body;
@@ -82,11 +104,11 @@ app.delete('/delete/:id', (request, response) => {
         .catch(err => console.log(err));
 });
 
-app.get('/search/:name', (request, response) => {
-    const { name } = request.params;
+app.get('/user/:username', (request, response) => {
+    const { username } = request.params;
     const db = dbService.getDbServiceInstance();
 
-    const result = db.searchByFlowerName(name);
+    const result = db.searchByUserName(username);
 
     result
         .then(data => response.json({ data: data }))
