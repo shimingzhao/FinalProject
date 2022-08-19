@@ -73,6 +73,24 @@ class DbService {
         }
     }
 
+    async getFavoriteFlowers() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = "SELECT * FROM flowers WHERE favorite = 1;";
+
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            // console.log(response);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     async getFlower(flowerId) {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -158,13 +176,13 @@ class DbService {
         }
     }
 
-    async updateFlowerById(id, name) {
+    async updateFlowerById(id, favorite) {
         try {
             id = parseInt(id, 10);
             const response = await new Promise((resolve, reject) => {
-                const query = "UPDATE flowers SET name = ? WHERE id = ?";
+                const query = "UPDATE flowers SET favorite = ? WHERE id = ?";
 
-                connection.query(query, [name, id], (err, result) => {
+                connection.query(query, [favorite, id], (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
                 })

@@ -82,13 +82,13 @@ app.get('/users', (request, response) => {
 
 // update
 app.patch('/update', (request, response) => {
-    const { id, name } = request.body;
+    const { id, favorite } = request.body;
     const db = dbService.getDbServiceInstance();
 
-    const result = db.updateFlowerById(id, name);
+    const result = db.updateFlowerById(id, favorite);
 
     result
-        .then(data => response.json({ success: data }))
+        .then(data => response.json({ data: data }))
         .catch(err => console.log(err));
 });
 
@@ -103,6 +103,16 @@ app.delete('/delete/:id', (request, response) => {
         .then(data => response.json({ success: data }))
         .catch(err => console.log(err));
 });
+
+app.get('/favorite', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getFavoriteFlowers();
+
+    result
+        .then(data => response.json({ data: data }))
+        .catch(err => console.log(err));
+})
 
 app.get('/user/:username', (request, response) => {
     const { username } = request.params;

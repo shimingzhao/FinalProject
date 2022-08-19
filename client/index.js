@@ -26,10 +26,12 @@ const userInfoBlock = document.querySelector('#user-info');
 const signOutBtn = document.querySelector('#signout-btn');
 
 const infoContainer = document.querySelector('#info-container');
+const addBtn = document.querySelector('#add-flower-btn');
+
 
 let userInfo = {};
-
 let categories;
+let favoriteFlowers = []
 
 document.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:5000/getCategories')
@@ -67,11 +69,7 @@ signupInputBtn.addEventListener("click", () => {
         .then(data => {
             const users = data['data'];
             if (users.find(user => user.user_name === user_name)) {
-                signupUserName.value = '';
-                signupPwd.value = '';
-                signupConfirmPwd.value = '';
-                signupFirstName.value = '';
-                signupLastName.value = '';
+                resetSignupInput();
 
                 flag = false;
 
@@ -105,6 +103,8 @@ signupInputBtn.addEventListener("click", () => {
                         signupContainer.hidden = true;
                         signOutBtn.innerHTML = 'Sign out'
                     });
+
+                resetSignupInput();
             }
         });
 })
@@ -114,6 +114,9 @@ for (let cancelBtn of cancelBtns) {
         loginContainer.hidden = true;
         signupContainer.hidden = true;
         buttonsContainer.hidden = false;
+
+        resetLoginInput();
+        resetSignupInput();
     })
 }
 
@@ -152,15 +155,6 @@ signOutBtn.addEventListener("click", () => {
     loginPwd.value = '';
 });
 
-// document.querySelector('table tbody').addEventListener('click', function (event) {
-//     if (event.target.className === "delete-row-btn") {
-//         deleteRowById(event.target.dataset.id);
-//     }
-//     if (event.target.className === "edit-row-btn") {
-//         handleEditRow(event.target.dataset.id);
-//     }
-// });
-
 document.addEventListener("DOMNodeInserted", () => {
     document.querySelectorAll(".category-btn").forEach((btn) => {
         btn.onclick = () => {
@@ -178,109 +172,67 @@ document.addEventListener("DOMNodeInserted", () => {
 
             fetch('http://localhost:5000/flower/' + selectedFlowerId)
                 .then(response => response.json())
-                .then(data => loadFlowerModal(data['data']));
+                .then(data => {
+                    loadFlowerModal(data['data']);
+                });
         }
     });
 
     document.querySelectorAll(".favorite-btn").forEach((btn) => {
-
         btn.onclick = () => {
             const selectedFlowerId = btn.dataset.id;
 
-            btn.style.backgroundColor = 'salmon';
-            btn.style.color = 'white';
+            if (btn.innerHTML === 'Added') {
+                fetch('http://localhost:5000/update', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: selectedFlowerId,
+                        favorite: 0
+                    })
+                })
 
-            btn.innerHTML = 'Add to favorite';
+                fetch('http://localhost:5000/favorite')
+                    .then(response => response.json())
+                    .then(data => {
+                        favoriteFlowers = data['data'];
+                        console.log(favoriteFlowers);
+                        // insertFavoriteNumber(data['data']);
+                    })
 
-            // fetch('http://localhost:5000/flower/' + selectedFlowerId)
-            //     .then(response => response.json())
-            //     .then(data => loadFlowerModal(data['data']));
+                return;
+            }
+
+            if (btn.innerHTML === 'Add to favorite') {
+                fetch('http://localhost:5000/update', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: selectedFlowerId,
+                        favorite: 1
+                    })
+                })
+
+                fetch('http://localhost:5000/favorite')
+                    .then(response => response.json())
+                    .then(data => {
+                        favoriteFlowers = data['data'];
+                        console.log(favoriteFlowers);
+                        // insertFavoriteNumber(data['data']);
+                    })
+
+                return;
+            }
         }
     });
 
     const span = document.querySelectorAll(".close")[0]
     if (span) span.onclick = () => modal.style.display = "none";
-
-    // updateBtn.onclick = function () {
-    //     const updateNameInput = document.querySelector('#update-name-input');
-
-
-    //     console.log(updateNameInput);
-
-    //     fetch('http://localhost:5000/update', {
-    //         method: 'PATCH',
-    //         headers: {
-    //             'Content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify({
-    //             id: updateNameInput.dataset.id,
-    //             name: updateNameInput.value
-    //         })
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (data.success) {
-    //                 location.reload();
-    //             }
-    //         })
-    // }
 });
-
-const updateBtn = document.querySelector('#update-row-btn');
-const searchBtn = document.querySelector('#search-btn');
-
-// searchBtn.onclick = function () {
-//     const searchValue = document.querySelector('#search-input').value;
-
-//     fetch('http://localhost:5000/search/' + searchValue)
-//         .then(response => response.json())
-//         .then(data => loadCategoriesPage(data['data']));
-// }
-
-function deleteRowById(id) {
-    fetch('http://localhost:5000/delete/' + id, {
-        method: 'DELETE'
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            }
-        });
-}
-
-function handleEditRow(id) {
-    const updateSection = document.querySelector('#update-row');
-    updateSection.hidden = false;
-    document.querySelector('#update-name-input').dataset.id = id;
-}
-
-// updateBtn.onclick = function () {
-//     const updateNameInput = document.querySelector('#update-name-input');
-
-
-//     console.log(updateNameInput);
-
-//     fetch('http://localhost:5000/update', {
-//         method: 'PATCH',
-//         headers: {
-//             'Content-type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             id: updateNameInput.dataset.id,
-//             name: updateNameInput.value
-//         })
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.success) {
-//                 location.reload();
-//             }
-//         })
-// }
-
-
-const addBtn = document.querySelector('#add-flower-btn');
 
 addBtn.onclick = function () {
     const nameInput = document.querySelector('#name-input');
@@ -309,38 +261,7 @@ addBtn.onclick = function () {
         body: JSON.stringify({ name, description, price, link, category })
     })
         .then(response => response.json())
-        .then(data => insertRowIntoTable(data['data']));
-}
-
-
-
-function insertRowIntoTable(data) {
-    console.log(data);
-    // const table = document.querySelector('table tbody');
-    // const isTableData = table.querySelector('.no-data');
-
-    // let tableHtml = "<tr>";
-
-    // for (var key in data) {
-    //     if (data.hasOwnProperty(key)) {
-    //         if (key === 'dateAdded') {
-    //             data[key] = new Date(data[key]).toLocaleString();
-    //         }
-    //         tableHtml += `<td>${data[key]}</td>`;
-    //     }
-    // }
-
-    // tableHtml += `<td><button class="delete-row-btn" data-id=${data.id}>Delete</td>`;
-    // tableHtml += `<td><button class="edit-row-btn" data-id=${data.id}>Edit</td>`;
-
-    // tableHtml += "</tr>";
-
-    // if (isTableData) {
-    //     table.innerHTML = tableHtml;
-    // } else {
-    //     const newRow = table.insertRow();
-    //     newRow.innerHTML = tableHtml;
-    // }
+        .then(data => console.log(data));
 }
 
 function loadCategoriesPage(data) {
@@ -366,12 +287,13 @@ function loadCategoriesPage(data) {
 function loadFlowersPage(data) {
     let categoryHtml = "";
 
-    data.forEach(function ({ id, name, link, price }) {
+    data.forEach(function ({ id, name, link, price, favorite }) {
+        console.log(favorite);
         categoryHtml += `<div class="items">`;
         categoryHtml += `<img src="${link}" alt="${name}" width="300px" height="300px">`;
         categoryHtml += `<span >${name}</span>`;
         categoryHtml += `<button type="button" class="btn btn-warning my-button flower-btn" data-id=${id}>${formatter.format(price)}</button>`;
-        categoryHtml += `<button type="button" class="btn btn-warning my-button favorite-btn" data-id=${id}>Add to favorite</button>`;
+        categoryHtml += `<button type="button" class="btn btn-warning my-button favorite-btn" data-id=${id}>${favorite ? 'Added' : 'Add to favorite'}</button>`;
         categoryHtml += "</div>";
     });
 
@@ -390,6 +312,19 @@ function loadFlowerModal(data) {
     </div>`;
     modal.innerHTML = modalHtml;
     modal.style.display = "block";
+}
+
+function resetSignupInput() {
+    signupUserName.value = '';
+    signupPwd.value = '';
+    signupConfirmPwd.value = '';
+    signupFirstName.value = '';
+    signupLastName.value = '';
+}
+
+function resetLoginInput() {
+    loginUserName.value = '';
+    loginPwd.value = '';
 }
 
 window.onclick = function (event) {
