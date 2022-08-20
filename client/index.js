@@ -299,8 +299,8 @@ function loadFlowersPage(data) {
         categoryHtml += `<div class="items">`;
         categoryHtml += `<img src="${link}" alt="${name}" width="300px" height="300px">`;
         categoryHtml += `<span >${name}</span>`;
-        categoryHtml += `<button type="button" class="btn btn-warning my-button flower-btn" data-id=${id}>${formatter.format(price)}</button>`;
-        categoryHtml += `<button type="button" class="btn btn-warning my-button favorite-btn" data-id=${id}>${favorite ? 'Added' : 'Add to favorite'}</button>`;
+        categoryHtml += `<div id="flower-buttons-container"><button type="button" class="btn btn-warning flower-btn" data-id=${id}>${formatter.format(price)}</button>`;
+        categoryHtml += `<button type="button" class="btn btn-warning favorite-btn" data-id=${id}>${favorite ? 'Added' : 'Add to favorite'}</button></div>`;
         categoryHtml += "</div>";
     });
 
@@ -314,7 +314,8 @@ function loadFlowerModal(data) {
     <span class="close">&times;</span>
     <div class="items">
     <img src="${link}" alt="${name}" width="300px" height="300px">
-    <span >${name}</span>
+    <span id="modal-name">${name}</span>
+    <span id="modal-price">${formatter.format(price)}</span>
     </div>
     </div>`;
     modal.innerHTML = modalHtml;

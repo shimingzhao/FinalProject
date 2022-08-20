@@ -1,20 +1,24 @@
+body {
+    width: 100%
+}
+
 .container {
-    display: grid;
-    height: 800px;
-    margin: 20px 25px 20px 25px;
-    padding: 20px 30px 20px 30px;
-    grid-template-rows: 2fr 3fr;
-    grid-gap: 15px 10px;
-    justify-items: center;
-    align-content: center;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
 }
 
 .paragraph {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background-color: rgb(247, 222, 249);
     color: blueviolet;
-    padding-bottom: 10px;
+    padding: 20px;
+}
+
+#user-info-container {
+    align-self: center;
 }
 
 #app {
@@ -76,7 +80,7 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 30%;
 }
 
 /* The Close Button */
@@ -95,14 +99,54 @@
 }
 
 #footer {
-    display: grid;
+    display: flex;
     height: 75px;
-    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(247, 222, 249);
     color: blueviolet;
     margin-top: 50px;
 }
 
+.footer-content {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #back-to-home-page-btn {
-    margin-top: 5px;
+    margin-top: 50px;
+    width: 150px;
+}
+
+#modal-name {
+    margin-top: 20px;
+}
+
+#modal-price {
+    margin-top: 10px;
+}
+
+.flower-btn {
+    width: 140px;
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+.favorite-btn {
+    width: 140px;
+    height: 40px;
+}
+
+#flower-buttons-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#user-login-container {
+    align-self: center;
+}
+
+#user-info-container {
+    align-self: end;
 }
