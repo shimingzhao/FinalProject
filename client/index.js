@@ -28,7 +28,6 @@ const signOutBtn = document.querySelector('#signout-btn');
 const infoContainer = document.querySelector('#info-container');
 const addBtn = document.querySelector('#add-flower-btn');
 
-
 let userInfo = {};
 let categories;
 let favoriteFlowers = []
@@ -38,6 +37,27 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => loadCategoriesPage(data['data']));
 });
+
+function loadCategoriesPage(data) {
+    categories = data;
+
+    let categoryHtml = "";
+    let optionsHtml = "";
+
+    data.forEach(function ({ id, name, link }) {
+        categoryHtml += `<div class="items">`;
+        categoryHtml += `<img src="${link}" alt="${name}" width="300px" height="300px">`;
+        categoryHtml += `<button type="button" class="btn btn-success my-button category-btn" data-id=${id}>${name}</button>`;
+        categoryHtml += "</div>";
+
+        optionsHtml += `<option value="${id}">${name}</option>`;
+    });
+
+    appEl.innerHTML = categoryHtml;
+    select.innerHTML = optionsHtml;
+    backBtn.hidden = true;
+}
+
 
 backBtn.addEventListener("click", function () {
     location.reload();
@@ -68,6 +88,7 @@ signupInputBtn.addEventListener("click", () => {
         .then(response => response.json())
         .then(data => {
             const users = data['data'];
+
             if (users.find(user => user.user_name === user_name)) {
                 resetSignupInput();
 
@@ -151,8 +172,7 @@ signOutBtn.addEventListener("click", () => {
     userInfoContainer.hidden = true;
     buttonsContainer.hidden = false;
 
-    loginUserName.value = '';
-    loginPwd.value = '';
+    resetLoginInput();
 });
 
 document.addEventListener("DOMNodeInserted", () => {
@@ -262,26 +282,6 @@ addBtn.onclick = function () {
     })
         .then(response => response.json())
         .then(data => console.log(data));
-}
-
-function loadCategoriesPage(data) {
-    categories = data;
-
-    let categoryHtml = "";
-    let optionsHtml = "";
-
-    data.forEach(function ({ id, name, link }) {
-        categoryHtml += `<div class="items">`;
-        categoryHtml += `<img src="${link}" alt="${name}" width="300px" height="300px">`;
-        categoryHtml += `<button type="button" class="btn btn-success my-button category-btn" data-id=${id}>${name}</button>`;
-        categoryHtml += "</div>";
-
-        optionsHtml += `<option value="${id}">${name}</option>`;
-    });
-
-    appEl.innerHTML = categoryHtml;
-    select.innerHTML = optionsHtml;
-    backBtn.hidden = true;
 }
 
 function loadFlowersPage(data) {

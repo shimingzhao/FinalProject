@@ -104,6 +104,7 @@ app.delete('/delete/:id', (request, response) => {
         .catch(err => console.log(err));
 });
 
+// get favorite flowers
 app.get('/favorite', (request, response) => {
     const db = dbService.getDbServiceInstance();
 
@@ -114,6 +115,7 @@ app.get('/favorite', (request, response) => {
         .catch(err => console.log(err));
 })
 
+// get user by username
 app.get('/user/:username', (request, response) => {
     const { username } = request.params;
     const db = dbService.getDbServiceInstance();
