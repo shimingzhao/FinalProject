@@ -1,6 +1,5 @@
 .container {
     display: grid;
-    width: 90%;
     height: 800px;
     margin: 20px 25px 20px 25px;
     padding: 20px 30px 20px 30px;
@@ -12,10 +11,10 @@
 
 .paragraph {
     display: grid;
-    width: 90%;
     grid-template-columns: 1fr;
     background-color: rgb(247, 222, 249);
-    color: blueviolet
+    color: blueviolet;
+    padding-bottom: 10px;
 }
 
 #app {
@@ -93,4 +92,17 @@
     color: #000;
     text-decoration: none;
     cursor: pointer;
+}
+
+#footer {
+    display: grid;
+    height: 75px;
+    grid-template-columns: 1fr;
+    background-color: rgb(247, 222, 249);
+    color: blueviolet;
+    margin-top: 50px;
+}
+
+#back-to-home-page-btn {
+    margin-top: 5px;
 }

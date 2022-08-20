@@ -28,6 +28,8 @@ const signOutBtn = document.querySelector('#signout-btn');
 const infoContainer = document.querySelector('#info-container');
 const addBtn = document.querySelector('#add-flower-btn');
 
+const addFlowerContainer = document.querySelector('#add-flower-container');
+
 let userInfo = {};
 let categories;
 let favoriteFlowers = []
@@ -157,6 +159,9 @@ loginInputBtn.addEventListener("click", function () {
                 loginContainer.hidden = true;
                 signupContainer.hidden = true;
                 signOutBtn.innerHTML = 'Sign out'
+                if (userInfo.user_name === "admin") {
+                    addFlowerContainer.hidden = false;
+                }
             } else {
                 userInfoContainer.hidden = false;
                 userInfoBlock.innerHTML = `<p>User name or password incorrect, please try again</p>`;
@@ -173,6 +178,8 @@ signOutBtn.addEventListener("click", () => {
     buttonsContainer.hidden = false;
 
     resetLoginInput();
+
+    addFlowerContainer.hidden = true;
 });
 
 document.addEventListener("DOMNodeInserted", () => {
